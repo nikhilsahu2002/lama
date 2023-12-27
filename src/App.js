@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Home from "./component/Home";
+import ProjectsHome from "./component/ProjectsHome";
+import UploadNav from "./component/UploadNav";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+  const handleFormSubmit = () => {
+    // Set the isFormSubmitted state to true when the form is submitted
+    setIsFormSubmitted(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route exact path="/">
+            {!isFormSubmitted ? (
+              <Home onFormSubmit={handleFormSubmit} />
+            ) : (
+              <ProjectsHome isFormSubmitted={isFormSubmitted} />
+            )}
+          </Route>
+          <Route exact path="/Home">
+            <UploadNav />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
